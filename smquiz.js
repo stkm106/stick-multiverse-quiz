@@ -15,7 +15,7 @@ const introScenes = [
     },
     { 
         type: "dialogue", 
-        text: "Nên chơi cho vui thôi nha, giống được phần nào hay phần đó, hoặc cũng có thể là chúng nó hợp gu mọi người đấy chứ!<br>À, hoạt động tốt nhất trên desktop nha!",
+        text: "Nên chơi cho vui thôi nha, giống được phần nào hay phần đó, hoặc cũng có thể là chúng nó hợp gu mọi người đấy chứ!",
         sprite: "assets/intro4.png",
         buttonText: "TIẾP TỤC"
     },
