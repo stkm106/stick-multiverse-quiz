@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stick Multiverse Personality Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/smollogo.png">
+    <style>
+        body {
+            font-family: "Fuzzy Bubbles", sans-serif;
+            background: url('assets/bg.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .screen {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .hidden { display: none !important; }
+
+        /* Intro */
+        #start-screen, #intro-screen {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+        #intro-screen h3 {
+            font-size: 1.69rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: auto 250px auto 250px;
+        }
+
+        .start-button {
+            font-family: inherit;
+            background-color: #1e293b;
+            color: white;
+            font-weight: 700;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 9999px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px; 
+        }
+
+        .start-button:hover {
+            background-color: #334155;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .icon-arrow::before {
+            content: '→';
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .start-button:hover .icon-arrow {
+            transform: translateX(4px);
+        }
+        
+        /* Quiz */
+        #quiz-screen {
+            padding-top: 40px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #f3f4f6;
+            border-radius: 9999px;
+            height: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        #progress-bar {
+            background: linear-gradient(to right, #73ffb0, #149bcc, #2e14f1);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-out;
+        }
+        #question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.5;
+            min-height: 60px;
+            text-align: center;
+        }
+        #options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            flex: 1;
+            align-content: center;
+        }
+        .option-btn {
+            width: 100%;
+            justify-content: center; 
+            padding: 20px;
+            border-radius: 16px;
+            background: white;
+            transition: all 0.2s;
+            color: #374151;
+            font-size: 1.125rem;
+        }
+        .option-btn:hover {
+            transform: translateY(-5px);
+            color: white;
+        }
+
+        /* Result */
+        #result-image {
+            max-width: 100%;
+            height: auto;
+            width: 500px;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        @media (min-width: 640px) {
+            #result-image {
+                width: 440px; /* desktop */
+            }
+        }
+        
+        #restart-button {
+            margin: 10px auto 0 auto;
+        }
+        #restart-button span {
+            display: block;
+            transition: transform 0.5s;
+        }
+        #restart-button:hover span {
+            transform: rotate(-180deg);
+        }
+
+        /* Animation */
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { transform: translateY(10px); }
+            to { transform: translateY(0); }
+        }
+
+        .dots::after {
+            content: '';
+            animation: dots 1.5s steps(3, end) infinite; }
+        @keyframes dots {
+            0%   { content: ''; }
+            33%  { content: '.'; }
+            66%  { content: '..'; }
+            100% { content: '...'; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0;}
+            50% { transform: scale(1.1); opacity: 1;}
+            70% { transform: scale(0.9);}
+            100% { transform: scale(1);}
+        }
+        .sticker {
+            animation: bounceIn 0.6s ease forwards;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+
+        <div id="start-screen" class="screen fade-in">
+            <img id="welcome-sprite" src="assets/intro1.png" style="width: fit-content; height: 350px; display: flex; object-fit: cover; margin-top: 0;">
+            <h2 style="color: #1e293b; font-size: 1.9rem; margin-top: 0;">Chào mừng đến Personality Quiz phiên bản Stick Multiverse!</h2>
+            <button id="start-button" class="start-button"> 
+                Yippee <span class="icon-arrow"></span>
+            </button>
+        </div>
+
+        <div id="intro-screen" class="screen hidden fade-in">
+            <img id="intro-sprite" style="width: fit-content; height: 300px;"/>
+
+            <h3 id="intro-text"></h3>
+            
+            <button id="next-intro-button" class="start-button" style="margin-top: 32px;">
+                TIẾP TỤC <span class="icon-arrow"></span>
+            </button>
+        </div>
+
+        <div id="quiz-screen" class="screen hidden fade-in">
+            
+            <div class="progress-bar-container">
+                <div id="progress-bar" style="width: 0%"></div>
+            </div>
+            
+            <div class="question-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+                <span class="counter" style="font-size: 0.875rem; font-weight: 700; color: #ffffff; ">Câu thứ <span id="current-q-num">1</span>/20</span>
+            </div>
+
+            <h3 id="question-text"> Quiz
+                </h3>
+            <div id="options-container"> Answers
+                </div>
+            
+        </div>
+    <div id="sticker-container" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
+                </div>        
+
+        <div id="loading-screen" class="screen hidden fade-in" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <img id="loading-sprite" src="assets/resulthmm.png" style="width: 250px; height: 250px; margin-bottom: 10px; object-fit: cover;">
+            <h3>Thinking about result<span class="dots"></span></h3>
+        </div>
+
+        <div id="result-screen" class="screen hidden fade-in">
+            <img id="result-image" src="" alt="Kết quả của bri">
+            
+            <button id="restart-button" class="start-button" onclick="resetQuizToStart()">
+                <span>↻</span> Thử lại nè
+            </button>
+        </div>
+    </div>
+
+    <script src="smquiz.js"></script>
+</body>
+</html>
