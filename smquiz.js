@@ -1,3 +1,51 @@
+/**
+ * @param {string[]} urls - Array of Image URLs
+ * @returns {Promise<HTMLImageElement[]>} - Promise that resolves when all images are loaded, or rejects if any image fails to load
+ */
+//preload sourcecode from https://blog.akbal.dev/how-to-preload-images-for-canvas-in-javascript
+async function preloadImages(urls) {
+  const promises = urls.map((url) => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = url;
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(`Image failed to load: ${url}`);
+    });
+  });
+
+  return Promise.all(promises);
+}
+
+const allImages = [
+    // Intro
+    "assets/intro2.png",
+    "assets/intro3.png",
+    "assets/intro4.png",
+    "assets/intro5.png",
+    // Stickers
+    "assets/sticker_X77.png",
+    "assets/sticker_Cielo.png",
+    "assets/sticker_LM.png",
+    "assets/sticker_April.png",
+    "assets/sticker_Poly.png",
+    "assets/sticker_Santa.png",
+    "assets/sticker_Past.png",
+    "assets/sticker_Bast.png",
+    "assets/sticker_Doc.png",
+    "assets/sticker_Pre.png",
+    "assets/sticker_Gris.png",
+    "assets/sticker_Stec.png",
+    "assets/sticker_PreAC.png",
+    "assets/sticker_CieloA1.png",
+    "assets/sticker_GrisB.png",
+    "assets/sticker_BastW.png",
+    // Results
+    "tstuff/X77.png", "tstuff/Cielo.png", "tstuff/LM.png",
+    "tstuff/April.png", "tstuff/Poly.png", "tstuff/Santa.png",
+    "tstuff/Past.png", "tstuff/Bast.png", "tstuff/Doc.png",
+    "tstuff/Pre.png", "tstuff/Gris.png", "tstuff/Stec.png"
+];
+
 let currentSceneIndex = 0;
 
 const introScenes = [
@@ -420,7 +468,7 @@ function showResult() {
 }
 
 
-function setupEventListeners() {
+async function setupEventListeners() {
     const startBtn = document.getElementById('start-button');
     if (startBtn)
         startBtn.onclick = showIntroScene; 
@@ -436,7 +484,13 @@ function setupEventListeners() {
     if (stickerContainer) {
         stickerContainer.style.display = 'none';
     }
-
+    try {
+        console.log("Preloading images...");
+        await preloadImages(allImages);
+        console.log("All images loaded!");
+    } catch (error) {
+        console.error("Error while preloading images:", error); 
+    }
 }
 
 document.addEventListener('DOMContentLoaded', setupEventListeners);
